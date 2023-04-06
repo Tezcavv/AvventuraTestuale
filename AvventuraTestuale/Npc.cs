@@ -8,22 +8,17 @@ namespace AvventuraTestuale {
     public class Npc {
 
         private string name;
-        private string dialogue;
+        private Dialogue dialogue;
 
-        public Npc(string name, string dialogue) {
+        public Npc(string name, Dialogue dialogue) {
             this.name = name;
             this.dialogue = dialogue;
         }
 
-        public string Name {
-            get { return name; }
-            set { name = value; }
-        }
+        public string Name => name;
 
-        public string Dialogue {
-            get { return dialogue; }
-            set { dialogue = value; }
-        }
+        public string Dialogue => dialogue.GetCurrentDialogue();
+        
 
     }
 }

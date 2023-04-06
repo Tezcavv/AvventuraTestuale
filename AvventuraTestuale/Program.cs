@@ -26,6 +26,8 @@ namespace AvventuraTestuale {
 
         private static List<string> azioni;
         private static List<Room> rooms;
+
+
         private static Player player;
 
         public static Room CurrentRoom {
@@ -49,28 +51,10 @@ namespace AvventuraTestuale {
             rooms= new List<Room>();
 
             player = new Player();
-
-            Room room = new Room("Cucina", "la cucina, un posto magico", new Vector2(0, 0));
-            Npc npc = new Npc("Carlo", "hello there");
-            Item item = new Item("Ascia","Ascia Affilatissima, muy guapa");
-            room.AddNpc(npc);
-            room.AddItem(item);
-
-            Room room2 = new Room("Sala","La sala da pranzo",new Vector2(0,1));
-            room2.AddNpc(new Npc("Biascica","Ma te, nell'orata all'acqua calda, ce li metti i pachino?"));
-            room2.AddItem(new Item("Fotocamera","non ne so niente di fotocamere"));
-            room2.AddItem(new Item("Martellone","è enorme ommioddio non usarlo sulla macchina fotografica la spaccheresti fortissimo"));
-
-            Room room3 = new Room("Bagno", "Il pensatoio", new Vector2(0, 2));
-            room3.AddNpc(new Npc("Man Living in my walls", " . . . "));
-            room3.AddItem(new Item("Gabinetto","ci fai i bisogni"));
-            room3.AddItem(new Item("Lavandino", "se non sei all'UNIFI lo usi per lavarti le mani"));
-
-            Room room4 = new Room("Camera da letto", "roooonf...fifififi", new Vector2(1, 1));
-
-            rooms.Add(room);
-            rooms.Add(room2);
-            rooms.Add(room3); 
+            
+            rooms.Add(RoomCreator.FirstRoom());
+            rooms.Add(RoomCreator.SecondRoom());
+            rooms.Add(RoomCreator.ThirdRoom()); 
 
            
         }
@@ -97,8 +81,6 @@ namespace AvventuraTestuale {
                 AskAction();
                 return;
             }
-
-
 
             string firstWord = wordsFound[0];
             string lastWord = input.Substring(firstWord.Length);
@@ -220,6 +202,7 @@ namespace AvventuraTestuale {
             }
 
             SlowlyWrite(CurrentRoom.GetNpc(npcName).Dialogue);
+            Player.AddNpcToTalkedList(CurrentRoom.GetNpc(npcName));
 
         }
 
@@ -290,6 +273,14 @@ namespace AvventuraTestuale {
 
             player.Move(targetPosition);
 
+        }
+
+        public static Npc GetNpc(string name) {
+            foreach(Room room in rooms) {
+                if (room.ContainsNpc(name))
+                    return room.GetNpc(name);
+            }
+            return null;
         }
 
 

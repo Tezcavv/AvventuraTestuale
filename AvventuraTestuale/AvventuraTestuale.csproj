@@ -65,12 +65,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogue\Dialogue.cs" />
+    <Compile Include="Dialogue\DialogueLine.cs" />
+    <Compile Include="ExitCondition\ExitCondition.cs" />
+    <Compile Include="ExitCondition\IExitCondition.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ExitCondition\NoExitCondition.cs" />
     <Compile Include="Npc.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="RoomCreator.cs" />
+    <Compile Include="TalkedToNpcExitCondition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
