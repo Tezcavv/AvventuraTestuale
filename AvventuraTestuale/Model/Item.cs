@@ -9,7 +9,7 @@ namespace AvventuraTestuale.Model {
     public enum ItemID { OGG01,OGG02,OGG03,OGG04,OGG05,OGG06,OGG07,OGG08,OGG09}
     public class Item {
 
-        public static Dictionary<ItemID, Item> allItems = new Dictionary<ItemID, Item>();
+        private static Dictionary<ItemID, Item> allItems = new Dictionary<ItemID, Item>();
 
         private string name;
         private string description;
@@ -28,6 +28,7 @@ namespace AvventuraTestuale.Model {
         public string Description => description;
         public int Status => status;    
         public string Name => name;
+        public static Dictionary<ItemID, Item> AllItems => allItems;
 
 
 
