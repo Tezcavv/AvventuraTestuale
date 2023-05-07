@@ -44,18 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\ConditionTalkToNpc.cs" />
+    <Compile Include="Conditions\IExitCondition.cs" />
+    <Compile Include="Model\Dialogue.cs" />
     <Compile Include="Model\HotArea.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Npc.cs" />
     <Compile Include="Model\Ambient.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Conditions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

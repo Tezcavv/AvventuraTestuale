@@ -11,7 +11,7 @@ namespace AvventuraTestuale.Model {
 
         private HotAreaID id;
         // Ogni Stato ha la sua Mappa di Azioni - Dialoghi
-        private Dictionary<int,Dictionary<Action, string>> dialogues;
+        private List<Dictionary<Action, Dialogue>> dialogues;
         private string name;
         private int status;
 
@@ -19,20 +19,25 @@ namespace AvventuraTestuale.Model {
         ///  Crea la HotArea con tutte le relative 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="dialogues">Mappa di Azioni - Dialoghi in ordine cronologico</param>
-        public HotArea(HotAreaID id, string name, params Dictionary<Action,string>[] dialogues) {
+        /// <param name="dialogues">Mappa di Azioni - Dialoghi ORDINATA</param>
+        public HotArea(HotAreaID id, string name, List<Dictionary<Action,Dialogue>> dialogues) {
             this.id = id;
             this.name = name;
-            this.dialogues = new Dictionary<int, Dictionary<Action, string>>();
-            for(int i = 0; i < dialogues.Length; i++) {
-                this.dialogues.Add(i, dialogues[i]);
-            }
+            this.dialogues = dialogues;
             status = 0;
         }
 
+        public HotAreaID Id { get => id; }
+
         public string GetDialogue(Action action) {
-            return dialogues[status][action];
+
+            if (dialogues[status][action].IsObsolete() && dialogues.Count < status) {
+                status++;
+            }
+            
+            return dialogues[status][action].Text;
         }
+
 
 
 
