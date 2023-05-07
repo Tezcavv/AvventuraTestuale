@@ -31,6 +31,7 @@ namespace AvventuraTestuale.Model {
             if (dialogues[dialogueLine].IsObsolete())
                 dialogueLine++;
 
+            //conseguenza del dialogo
             if (!Player.Instance.HadConversation(id, dialogues[dialogueLine].ID)) {
                 dialogues[dialogueLine].ExecuteActions();
             }

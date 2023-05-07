@@ -18,24 +18,21 @@ namespace AvventuraTestuale {
         const string GAME_TITLE = "Gatito";
         const int INITIAL_PAUSE_MILLIS = 200;
         const int LETTER_PAUSE_MILLIS = 30;
-        
+
+
+
+        #region WorldInit
         static Ambient ambient;
         static Ambient ambient2;
         static Player player;
-
-        static void InitializeStuff() {
-            Dialogue dial1 = new NpcDialogue(NpcID.PG01,DialogueID.DIAL01, "CIAO");
-            Dialogue dial2 = new NpcDialogue(NpcID.PG01, DialogueID.DIAL02, "Come va?");
-            dial2.AddAction(new UnlockAmbient(AmbientID.AM02));
-            Npc npc = new Npc(NpcID.PG01, "Giorgio", new List<Dialogue>() { dial1, dial2 });
-            ambient = new Ambient(new Vector2(0, 0), AmbientID.AM01, "casa", "casa tua",null,new List<Npc>() { npc });
-            ambient2 = new Ambient(new Vector2(1, 0), AmbientID.AM02, "fuori", "fuori", null, null);
-            ambient2.SetActive(false);
-            player = Player.Instance;
+        static void CreateWorld() {
+            
 
         }
+        #endregion
+
         static void Main(string[] args) {
-            InitializeStuff();
+            CreateWorld();
             while (true) {
                 Write(""); //
                 AskAction();
@@ -68,7 +65,14 @@ namespace AvventuraTestuale {
                 return;
             }
 
-            if()
+            if(firstWord == "go") {
+                if (!ambient2.IsActive) {
+                    SlowlyWrite("non sono attivo");
+                }
+                else {
+                    SlowlyWrite("sono attivo");
+                }
+            }
 
 
             // SlowlyWrite("Azione trovata");
