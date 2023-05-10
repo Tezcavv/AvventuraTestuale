@@ -14,7 +14,7 @@ namespace AvventuraTestuale.DialogueActions {
             ambID= id;
         }
         public void Execute() {
-            Ambient.allAmbients[ambID].SetActive(true);
+            Ambient.allAmbients.Find(amb => amb.AmbientID == ambID).SetActive(true);
         }
     }
 }

@@ -45,9 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conditions\ConditionTalkToNpc.cs" />
+    <Compile Include="Conditions\LastDialogue.cs" />
     <Compile Include="DialogueActions\IDialogueAction.cs" />
     <Compile Include="Conditions\IExitCondition.cs" />
     <Compile Include="DialogueActions\UnlockAmbient.cs" />
+    <Compile Include="IExaminable.cs" />
     <Compile Include="Model\Dialogue.cs" />
     <Compile Include="Model\HotArea.cs" />
     <Compile Include="Model\HotAreaDialogue.cs" />
@@ -56,9 +58,9 @@
     <Compile Include="Model\Ambient.cs" />
     <Compile Include="Model\NpcDialogue.cs" />
     <Compile Include="Model\Player.cs" />
-    <Compile Include="Model\WorldCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorldFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -7,39 +7,47 @@ using System.Threading.Tasks;
 namespace AvventuraTestuale.Model {
 
     public enum NpcID { PG01,PG02,PG03,PG04,PG05,PG06,PG07}
-    public class Npc {
+    public class Npc : IExaminable {
 
-        public static Dictionary<NpcID, Npc> allNpcs= new Dictionary<NpcID, Npc>();
+        public static List<Npc> allNpcs= new List<Npc>();
 
         private NpcID id;
         private string name;
+        private string description;
         private List<Dialogue> dialogues;
-        private int dialogueLine;
 
-        public Npc(NpcID id, string name, List<Dialogue> dialogues) {
+        public Npc(NpcID id, string name, string description, List<Dialogue> dialogues) {
             this.id = id;
             this.name = name;
+            this.description = description;
             this.dialogues = dialogues;
-            dialogueLine = 0;
-            allNpcs.Add(id, this);
+            allNpcs.Add(this);
+        }
+        public Npc(NpcID id, string name, string description) : this(id,name,description,new List<Dialogue>()) {
+
         }
 
         public NpcID Id { get => id; }
+        public string Name => name;
+        public string Description => description;
+
+        public void AddDialogues(params Dialogue[] dialogues) {
+            foreach (Dialogue dial in dialogues)
+                this.dialogues.Add(dial);
+        }
 
         public string GetDialogue() {
 
-            if (dialogues[dialogueLine].IsObsolete())
-                dialogueLine++;
 
-            //conseguenza del dialogo
-            if (!Player.Instance.HadConversation(id, dialogues[dialogueLine].ID)) {
-                dialogues[dialogueLine].ExecuteActions();
-            }
+            while (dialogues[0].IsObsolete() && Player.HadConversation(id, dialogues[0].ID))
+                dialogues.RemoveAt(0);
 
-            Player.Instance.AddConversation(id, dialogues[dialogueLine].ID);
-            return dialogues[dialogueLine].Text;
+            dialogues[0].ExecuteActions();
+            Player.AddConversation(id, dialogues[0].ID);
+
+
+            return dialogues[0].Text;
         }
-
 
     }
 }

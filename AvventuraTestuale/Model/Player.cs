@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,38 +10,36 @@ namespace AvventuraTestuale.Model {
     public class Player {
 
 
-        private static Player instance;
-        public static Player Instance {
+        private static Dictionary<NpcID, List<DialogueID>> conversationsHad = new Dictionary<NpcID, List<DialogueID>>();
+        private static Dictionary<HotAreaID, List<DialogueID>> hotAreaInteractionsHad = new Dictionary<HotAreaID, List<DialogueID>>();
+        private static List<Item> itemsInInventory= new List<Item>();
+        private static Vector2 currentPosition = new Vector2(0, 0);
+        private static Ambient currentAmbient;
+        public static Ambient CurrentAmbient {
             get {
-                if (instance == null) {
-                    instance = new Player();
-                }
-                return instance;
+                if (currentAmbient == null)
+                    currentAmbient = Ambient.allAmbients.Find(ambient => ambient.WorldPosition == currentPosition);
+
+              return currentAmbient;
             }
+            set { currentAmbient= value;
+                currentPosition = value.WorldPosition;  }
         }
 
-        private Dictionary<NpcID, List<DialogueID>> conversationsHad;
-        private Dictionary<AmbientID, Dictionary<HotAreaID, int>> hotAreasStatus;
-        private Dictionary<ItemID, int> interactedItems;
-        private Vector2 currentPosition;
+        public static void AddConversation(HotAreaID hotAreaId, DialogueID dialogueID) {
 
+            if (!hotAreaInteractionsHad.ContainsKey(hotAreaId)) {
+                hotAreaInteractionsHad.Add(hotAreaId, new List<DialogueID>() { dialogueID });
+                return;
+            }
 
-
-        private Player() {
-
-
-
-            conversationsHad = new Dictionary<NpcID, List<DialogueID>>();
-            hotAreasStatus = new Dictionary<AmbientID, Dictionary<HotAreaID, int>>();
-            interactedItems = new Dictionary<ItemID, int>();
-            currentPosition = new Vector2(0, 0);
+            if (!hotAreaInteractionsHad[hotAreaId].Contains(dialogueID))
+                hotAreaInteractionsHad[hotAreaId].Add(dialogueID);
 
 
         }
 
-
-
-        public void AddConversation(NpcID npcId,DialogueID dialogueID) {
+        public static void AddConversation(NpcID npcId,DialogueID dialogueID) {
 
             if (!conversationsHad.ContainsKey(npcId)) {
                 conversationsHad.Add(npcId, new List<DialogueID>() { dialogueID });
@@ -48,12 +47,12 @@ namespace AvventuraTestuale.Model {
             }
 
             if (!conversationsHad[npcId].Contains(dialogueID))
-                return;
+                conversationsHad[npcId].Add(dialogueID);
 
-            conversationsHad[npcId].Add(dialogueID);
+
         }
 
-        public bool HadConversation(NpcID withNpcId,DialogueID dialogueID) {
+        public static bool HadConversation(NpcID withNpcId,DialogueID dialogueID) {
             if (!conversationsHad.ContainsKey(withNpcId))
                 return false;
             if (!conversationsHad[withNpcId].Contains(dialogueID))
@@ -61,7 +60,15 @@ namespace AvventuraTestuale.Model {
             return true;
         }
 
-        public Dictionary<AmbientID, Dictionary<HotAreaID, int>> HotAreasStatus { get => hotAreasStatus; }
-        public Dictionary<ItemID, int> InteractedItems { get => interactedItems; }
+        public static bool HadConversation(HotAreaID hotAreaID, DialogueID dialogueID) {
+            if (!hotAreaInteractionsHad.ContainsKey(hotAreaID))
+                return false;
+            if (!hotAreaInteractionsHad[hotAreaID].Contains(dialogueID))
+                return false;
+            return true;
+        }
+
+        public static Dictionary<HotAreaID, List<DialogueID>> HotAreaInteractionsHad { get => hotAreaInteractionsHad; }
+        public static List<Item> ItemsInInventory { get => itemsInInventory; }
     }
 }

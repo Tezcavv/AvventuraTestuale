@@ -8,30 +8,36 @@ namespace AvventuraTestuale.Model {
         private NpcID npcID;
         
 
+
+
         public NpcDialogue(NpcID npcId, DialogueID id, string text, params IExitCondition[] exitConditions) : base(id, text, exitConditions) {
-
             npcID= npcId;
-
         }
+        public NpcDialogue(NpcID npcId, DialogueID id, string text, params IDialogueAction[] actions) :base(id,text,actions){
+            npcID = npcId;
+        }
+        public NpcDialogue(NpcID npcId, DialogueID id, string text, List<IExitCondition> exitConditions,List<IDialogueAction> actions) : base(id, text, exitConditions, actions) {
+            npcID= npcId;
+        }
+        public NpcDialogue(NpcID npcId, DialogueID id, string text) : base(id, text) {
+            npcID = npcId;
+        }
+
 
         public NpcID NpcID { get => npcID; }
         
       
 
 
-        public override bool IsObsolete() {
-
-            if (exitConditions.Length <= 0 && !Player.Instance.HadConversation(npcID, id)) {
-                return false;
-            }
+        //public override bool IsObsolete() {
 
 
-            foreach (IExitCondition condition in exitConditions) {
-                if (!condition.IsConditionMet())
-                    return false;
-            }
+        //    foreach (IExitCondition condition in exitConditions) {
+        //        if (!condition.IsConditionMet())
+        //            return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }

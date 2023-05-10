@@ -13,10 +13,11 @@ namespace AvventuraTestuale.Conditions {
 
         public ConditionTalkToNpc(NpcID npcId,DialogueID dialogueToWaitFor) {
             npcID = npcId;
+            dialogueID = dialogueToWaitFor;
         }
 
         public bool IsConditionMet() {
-            return Player.Instance.HadConversation(npcID, dialogueID);
+            return Player.HadConversation(npcID, dialogueID);
         }
     }
 }

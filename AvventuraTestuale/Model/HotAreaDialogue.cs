@@ -15,15 +15,15 @@ namespace AvventuraTestuale.Model {
 
         public HotAreaID HotAreaID { get => hotAreaID; }
 
-        public override bool IsObsolete() {
+        //public override bool IsObsolete() {
 
             
-            foreach (IExitCondition condition in exitConditions) {
-                if (!condition.IsConditionMet())
-                    return false;
-            }
+        //    foreach (IExitCondition condition in exitConditions) {
+        //        if (!condition.IsConditionMet())
+        //            return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }
