@@ -27,18 +27,21 @@ namespace AvventuraTestuale.Model {
 
         public HotAreaID Id { get => id; }
         public string Name => name;
-        public string Description => GetDialogue(Action.ESAMINA);
+        public string Description => PlayDialogue(Action.ESAMINA);
 
-        public string GetDialogue(Action action) {
+        public string PlayDialogue(Action action) {
 
             if (!dialogues.ContainsKey(action)) {
+                Program.SlowlyWrite(Program.COMMAND_NOT_VALID);
                 return Program.COMMAND_NOT_VALID;
             }
+
             CheckForConversation(action);
 
             while (dialogues[action][0].IsObsolete()) {
 
                 if (dialogues[action].Count <= 1)
+
                     return "...";
                 dialogues[action].RemoveAt(0);
                 CheckForConversation(action);

@@ -1,13 +1,13 @@
-﻿using AvventuraTestuale.Conditions;
-using AvventuraTestuale.DialogueActions;
-using AvventuraTestuale.Model;
+﻿using AvventuraTestuale.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+
+
+//Sei già stato rickrollato dagli altri?
+//Se sì: scusa
 
 namespace AvventuraTestuale {
 
@@ -64,10 +64,10 @@ namespace AvventuraTestuale {
             Console.WriteLine(o.ToString());
         }
 
-        private static void SlowlyWrite(string s) {
+        public static void SlowlyWrite(string s) {
             SlowlyWrite(s, LETTER_PAUSE_MILLIS);
         }
-        private static void SlowlyWrite(string s, int pauseMillis) {
+        public static void SlowlyWrite(string s, int pauseMillis) {
             Thread.Sleep(INITIAL_PAUSE_MILLIS);
             foreach (char ch in s) {
                 Console.Write(ch);
@@ -132,19 +132,33 @@ namespace AvventuraTestuale {
         }
 
         private static void HandleUse(string itemAndTarget) {
+
             List<string> words = itemAndTarget.Split(' ').ToList();
             words.ForEach(word => word.Trim());
 
+            string item = words[0];
+
+            if (!Player.ItemsInInventory.Any(i => i.Name == item)) {
+                SlowlyWrite(ITEM_NOT_IN_INVENTORY);
+                return;
+            }
+
             if (words.Count < 2) {
-                if (!Player.ItemsInInventory.Any(i => i.Name == words[0])) {
-                    SlowlyWrite(ITEM_NOT_IN_INVENTORY);
-                    return;
-                }
                 SlowlyWrite(TARGET_NEEDED);
                 return;
             }
-            string item = words[0];
-            string target = words[words.Count-1];
+            
+            string target = words[words.Count - 1];
+
+            if (!Player.CurrentAmbient.HotAreas.Any(hotArea => hotArea.Name == target)) {
+                SlowlyWrite(TARGET_NOT_FOUND);
+                return;
+            }
+
+
+            
+
+        
 
 
         }
@@ -266,8 +280,7 @@ namespace AvventuraTestuale {
                 SlowlyWrite(TARGET_NOT_FOUND);
                 return;
             }
-            string dialogue = Player.CurrentAmbient.Npcs.Find(npc => npc.Name.ToLower().Equals(npcName[npcName.Count - 1])).GetDialogue();
-            SlowlyWrite(dialogue);
+            Player.CurrentAmbient.Npcs.Find(npc => npc.Name.ToLower().Equals(npcName[npcName.Count - 1])).PlayDialogue();
         }
 
         #endregion

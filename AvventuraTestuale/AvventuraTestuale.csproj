@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conditions\ConditionTalkToNpc.cs" />
+    <Compile Include="Conditions\ItemIsUsedOnCondition.cs" />
     <Compile Include="Conditions\LastDialogue.cs" />
     <Compile Include="DialogueActions\IDialogueAction.cs" />
     <Compile Include="Conditions\IExitCondition.cs" />

@@ -36,17 +36,20 @@ namespace AvventuraTestuale.Model {
                 this.dialogues.Add(dial);
         }
 
-        public string GetDialogue() {
+        public void PlayDialogue() {
 
-
-            while (dialogues[0].IsObsolete() && Player.HadConversation(id, dialogues[0].ID))
+            while (dialogues[0].IsObsolete() /*&& Player.HadConversation(id, dialogues[0].ID)*/)
                 dialogues.RemoveAt(0);
 
-            dialogues[0].ExecuteActions();
-            Player.AddConversation(id, dialogues[0].ID);
+            
+            Program.SlowlyWrite(dialogues[0].Text);
 
+            if (Player.HadConversation(id, dialogues[0].ID)) {
+                Player.AddConversation(id, dialogues[0].ID);
+                dialogues[0].ExecuteActions();
+            }
+            
 
-            return dialogues[0].Text;
         }
 
     }
