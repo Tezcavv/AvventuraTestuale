@@ -41,7 +41,7 @@ namespace AvventuraTestuale {
         #region WorldInit
         static void CreateWorld() {
 
-            WorldFactory.FirstAmbient();
+            WorldFactory.CreateAmbients();
 
         }
         #endregion
@@ -78,7 +78,8 @@ namespace AvventuraTestuale {
 
         #endregion
 
-        static void Main(string[] args) {
+        static void Main(string[] args) { 
+
             Console.Title = GAME_TITLE;
             CreateWorld();
             while (gameIsRunning) {
@@ -133,7 +134,7 @@ namespace AvventuraTestuale {
 
         private static void HandleUse(string itemAndTarget) {
 
-            List<string> words = itemAndTarget.Split(' ').ToList();
+            List<string> words = itemAndTarget.Trim().Split(' ').ToList();
             words.ForEach(word => word.Trim());
 
             string item = words[0];
@@ -155,7 +156,11 @@ namespace AvventuraTestuale {
                 return;
             }
 
+            HotArea hh = Player.CurrentAmbient.HotAreas.Find(i => i.Name == target);
+            Item it = Player.ItemsInInventory.Find(i => i.Name == item);
 
+            Player.UseItemOnHotArea(it.ItemID, hh.Id);
+            hh.PlayDialogue(Action.USA);
             
 
         
@@ -173,25 +178,23 @@ namespace AvventuraTestuale {
             }
 
             if (target.Contains("nord") && availableAmbients.ContainsKey("nord")) {
-                Player.CurrentAmbient = availableAmbients["nord"];
-                return;
+                Player.CurrentAmbient = availableAmbients["nord"];                
             }
-            if (target.Contains("ovest") && availableAmbients.ContainsKey("ovest")) {
-                Player.CurrentAmbient = availableAmbients["ovest"];
-                return;
+            else if (target.Contains("ovest") && availableAmbients.ContainsKey("ovest")) {
+                Player.CurrentAmbient = availableAmbients["ovest"];              
             }
-            if (target.Contains("est") && availableAmbients.ContainsKey("est")) {
+            else if (target.Contains("est") && availableAmbients.ContainsKey("est")) {
                 Player.CurrentAmbient = availableAmbients["est"];
-                return;
+              
             }
-            if (target.Contains("sud") && availableAmbients.ContainsKey("sud")) {
+            else if (target.Contains("sud") && availableAmbients.ContainsKey("sud")) {
                 Player.CurrentAmbient = availableAmbients["sud"];
-                return;
             }
 
             Console.Clear();
             Thread.Sleep(500);
             HandleLookAround();
+            PrintActiveCloseAmbients();
         }
 
         private static void PrintInventory() {
@@ -207,9 +210,9 @@ namespace AvventuraTestuale {
                 return;
             }
 
-            SlowlyWrite("\n Puoi andare a:");
+            SlowlyWrite("\nPuoi andare a:");
             foreach(string dir in availableAmbients.Keys) {
-                SlowlyWrite(dir.ToUpper() + " - " + availableAmbients[dir]);
+                SlowlyWrite(" " + dir.ToUpper() + " - " + availableAmbients[dir].Name);
             }
         }
 
@@ -269,7 +272,7 @@ namespace AvventuraTestuale {
                 SlowlyWrite(TARGET_NOT_FOUND);
                 return;
             }
-            string description = Player.CurrentAmbient.Npcs.Find(x => target.Contains(x.Name)).Description;
+            string description = Player.CurrentAmbient.Examinables.Find(x => target.Contains(x.Name)).Description;
             SlowlyWrite(description);
         }
 

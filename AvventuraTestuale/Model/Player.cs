@@ -13,7 +13,7 @@ namespace AvventuraTestuale.Model {
         private static Dictionary<NpcID, List<DialogueID>> conversationsHad = new Dictionary<NpcID, List<DialogueID>>();
         private static Dictionary<HotAreaID, List<DialogueID>> hotAreaInteractionsHad = new Dictionary<HotAreaID, List<DialogueID>>();
         private static List<Item> itemsInInventory= new List<Item>();
-        private static Dictionary<ItemID,HotAreaID> itemsUsedOnHotArea = new Dictionary<ItemID,HotAreaID>();
+        private static Dictionary<ItemID,List<HotAreaID>> itemsUsedOnHotArea = new Dictionary<ItemID,List<HotAreaID>>();
         private static Vector2 currentPosition = new Vector2(0, 0);
         private static Ambient currentAmbient;
         public static Ambient CurrentAmbient {
@@ -71,17 +71,25 @@ namespace AvventuraTestuale.Model {
 
         public static bool IsItemUsedOnHotArea(ItemID id,HotAreaID hhId) {
 
-            if (itemsUsedOnHotArea.ContainsKey(id) && itemsUsedOnHotArea[id] == hhId) {
+            if (itemsUsedOnHotArea.ContainsKey(id) && itemsUsedOnHotArea[id].Contains(hhId)) {
                 return true;
             }
             return false;
         }
 
         public static void UseItemOnHotArea(ItemID id, HotAreaID hhId) {
-            itemsUsedOnHotArea.Add(id,hhId);
+
+            if (!itemsUsedOnHotArea.ContainsKey(id)) {
+                itemsUsedOnHotArea.Add(id, new List<HotAreaID>() { hhId });
+                return;
+            }
+
+            if (!itemsUsedOnHotArea[id].Contains(hhId))
+                itemsUsedOnHotArea[id].Add(hhId);
         }
 
         public static Dictionary<HotAreaID, List<DialogueID>> HotAreaInteractionsHad { get => hotAreaInteractionsHad; }
         public static List<Item> ItemsInInventory { get => itemsInInventory; }
+        public static Dictionary<ItemID, List<HotAreaID>> ItemsUsedOnHotArea { get => itemsUsedOnHotArea; set => itemsUsedOnHotArea = value; }
     }
 }

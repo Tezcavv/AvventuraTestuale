@@ -45,10 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conditions\ConditionTalkToNpc.cs" />
+    <Compile Include="Conditions\IsItemInInventoryCondition.cs" />
     <Compile Include="Conditions\ItemIsUsedOnCondition.cs" />
     <Compile Include="Conditions\LastDialogue.cs" />
+    <Compile Include="DialogueActions\AcquireItem.cs" />
     <Compile Include="DialogueActions\IDialogueAction.cs" />
     <Compile Include="Conditions\IExitCondition.cs" />
+    <Compile Include="DialogueActions\RemoveItemFromInventory.cs" />
     <Compile Include="DialogueActions\UnlockAmbient.cs" />
     <Compile Include="IExaminable.cs" />
     <Compile Include="Model\Dialogue.cs" />

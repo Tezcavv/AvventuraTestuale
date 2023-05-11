@@ -25,38 +25,72 @@ namespace AvventuraTestuale.Model {
             this.dialogues = dialogues;
         }
 
-        public HotAreaID Id { get => id; }
-        public string Name => name;
-        public string Description => PlayDialogue(Action.ESAMINA);
+        public HotArea(HotAreaID id, string name) : this(id, name, new Dictionary<Action, List<Dialogue>>()) { }
 
-        public string PlayDialogue(Action action) {
+        public void AddDialogue( Action action,params Dialogue[] dialogue) {
 
             if (!dialogues.ContainsKey(action)) {
-                Program.SlowlyWrite(Program.COMMAND_NOT_VALID);
+                dialogues[action]=new List<Dialogue>();
+            }
+            
+            dialogues[action].AddRange(dialogue);
+        }
+
+        public HotAreaID Id { get => id; }
+        public string Name => name.ToLower();
+        public string Description => Examine(Action.ESAMINA);
+
+        private string Examine(Action action) {
+
+            if (!dialogues.ContainsKey(action)) {
+               
                 return Program.COMMAND_NOT_VALID;
             }
 
-            CheckForConversation(action);
-
             while (dialogues[action][0].IsObsolete()) {
 
-                if (dialogues[action].Count <= 1)
-
+                if (dialogues[action].Count <= 1) {
+                  
                     return "...";
+                }
+
+                if (!Player.HadConversation(id, dialogues[action][0].ID)) {
+                    Player.AddConversation(id, dialogues[action][0].ID);
+                    dialogues[action][0].ExecuteActions(); //TO_TEST
+
+                }
                 dialogues[action].RemoveAt(0);
-                CheckForConversation(action);
             }
 
+            Player.AddConversation(id, dialogues[action][0].ID);
+            dialogues[action][0].ExecuteActions();
             return dialogues[action][0].Text;
+        }
+
+
+        //
+        public void PlayDialogue(Action action) {
+
+            if (!dialogues.ContainsKey(action)) {
+                Program.SlowlyWrite(Program.COMMAND_NOT_VALID);
+                return;
+            }
+
+            if (dialogues[action][0].IsObsolete() && Player.HadConversation(id, dialogues[action][0].ID)) {
+
+                if (dialogues[action].Count <= 1) {
+                    Program.SlowlyWrite("...");
+                    return;
+                }
+
+                dialogues[action].RemoveAt(0);
+            }
+            Player.AddConversation(id, dialogues[action][0].ID);
+            Program.SlowlyWrite(dialogues[action][0].Text);
+            dialogues[action][0].ExecuteActions();
             
         }
 
-        private void CheckForConversation(Action action) {
-            if (!Player.HadConversation(id, dialogues[action][0].ID)) {
-                dialogues[action][0].ExecuteActions();
-                Player.AddConversation(id, dialogues[action][0].ID);
-            }
-        }
 
 
 

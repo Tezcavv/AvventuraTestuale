@@ -17,7 +17,7 @@ namespace AvventuraTestuale.Model {
         private List<IExaminable> examinables;
         private string name;
         private string description;
-        private bool isActive;
+        private bool isActive = true;
 
 
         public Ambient(Vector2 worldPosition, AmbientID id, string name, string description, List<Npc> npcs, List<HotArea> hotAreas) {
@@ -46,6 +46,14 @@ namespace AvventuraTestuale.Model {
             npcs.ToList().ForEach(npc =>{  this.npcs.Add(npc);
                                            this.examinables.Add(npc); }) ;
             
+        }
+
+        public void AddHotAreas(params HotArea[] hotArea) {
+            hotArea.ToList().ForEach(hh => {
+                this.hotAreas.Add(hh);
+                this.examinables.Add(hh);
+            });
+
         }
 
 

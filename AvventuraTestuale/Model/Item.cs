@@ -9,7 +9,7 @@ namespace AvventuraTestuale.Model {
     public enum ItemID { OGG01,OGG02,OGG03,OGG04,OGG05,OGG06,OGG07,OGG08,OGG09}
     public class Item {
 
-        public List<Item> allItems = new List<Item>();
+        public static List<Item> allItems = new List<Item>();
 
         private ItemID itemID;
         private string name;
@@ -25,7 +25,7 @@ namespace AvventuraTestuale.Model {
         }
 
         public string Description => description;
-        public string Name => name;
+        public string Name => name.ToLower();
 
         public ItemID ItemID => itemID;
 

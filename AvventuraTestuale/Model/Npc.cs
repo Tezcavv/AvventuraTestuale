@@ -28,7 +28,7 @@ namespace AvventuraTestuale.Model {
         }
 
         public NpcID Id { get => id; }
-        public string Name => name;
+        public string Name => name.ToLower();
         public string Description => description;
 
         public void AddDialogues(params Dialogue[] dialogues) {
@@ -38,13 +38,13 @@ namespace AvventuraTestuale.Model {
 
         public void PlayDialogue() {
 
-            while (dialogues[0].IsObsolete() /*&& Player.HadConversation(id, dialogues[0].ID)*/)
+            while (dialogues[0].IsObsolete() && Player.HadConversation(id, dialogues[0].ID))
                 dialogues.RemoveAt(0);
 
             
             Program.SlowlyWrite(dialogues[0].Text);
 
-            if (Player.HadConversation(id, dialogues[0].ID)) {
+            if (!Player.HadConversation(id, dialogues[0].ID)) {
                 Player.AddConversation(id, dialogues[0].ID);
                 dialogues[0].ExecuteActions();
             }
