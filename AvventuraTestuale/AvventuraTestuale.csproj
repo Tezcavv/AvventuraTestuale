@@ -52,11 +52,9 @@
     <Compile Include="IExaminable.cs" />
     <Compile Include="Model\Dialogue.cs" />
     <Compile Include="Model\HotArea.cs" />
-    <Compile Include="Model\HotAreaDialogue.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Npc.cs" />
     <Compile Include="Model\Ambient.cs" />
-    <Compile Include="Model\NpcDialogue.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

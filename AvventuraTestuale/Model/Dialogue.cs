@@ -15,6 +15,8 @@ namespace AvventuraTestuale.Model {
         protected List<IExitCondition> exitConditions;
         private List<IDialogueAction> actionList;
 
+
+        #region costruttori
         public Dialogue(DialogueID id ,string text) {
             this.id = id;
             this.text = text;
@@ -22,6 +24,7 @@ namespace AvventuraTestuale.Model {
             actionList= new List<IDialogueAction>();
         }
 
+        
         public Dialogue(DialogueID id, string text, List<IExitCondition> exitConditions, List<IDialogueAction> actions) : this(id, text) {
 
             this.exitConditions = exitConditions;
@@ -36,6 +39,7 @@ namespace AvventuraTestuale.Model {
         public Dialogue(DialogueID id, string text, params IDialogueAction[] actions) : this(id, text) {
             actionList?.AddRange(actions);
         }
+        #endregion
 
         public void AddExitCondition(params IExitCondition[] exitCondition) {
             exitCondition?.ToList().ForEach(exitConditions.Add);

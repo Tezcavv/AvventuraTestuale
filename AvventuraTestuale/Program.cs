@@ -143,12 +143,8 @@ namespace AvventuraTestuale {
                 SlowlyWrite(TARGET_NEEDED);
                 return;
             }
-
             string item = words[0];
             string target = words[words.Count-1];
-
-
-
 
 
         }
