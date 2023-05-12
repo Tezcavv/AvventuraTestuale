@@ -1,12 +1,7 @@
 ﻿using AvventuraTestuale.Conditions;
 using AvventuraTestuale.DialogueActions;
 using AvventuraTestuale.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AvventuraTestuale {
     public class WorldFactory {
@@ -29,7 +24,7 @@ namespace AvventuraTestuale {
             hh1.AddDialogue(Action.ESAMINA, d1,d3,d5);
             Dialogue d2 = new Dialogue(DialogueID.DIAL02, "Hai messo la manovella e adesso l'acqua è tornata a scorrere", new RemoveItemFromInventory(ItemID.OGG01));
             d2.AddExitCondition(new ItemIsUsedOnCondition(ItemID.OGG02, HotAreaID.HH01));
-            Dialogue d4 = new Dialogue(DialogueID.DIAL04, "Azioni la fontanella, metti il secchio sotto il getto d'acqua \nil secchio è ora pieno");
+            Dialogue d4 = new Dialogue(DialogueID.DIAL04, "Azioni la fontanella, metti il secchio sotto il getto d'acqua \nil secchio è ora pieno", new EndGame());
             hh1.AddDialogue(Action.USA, d2,d4);
 
             Npc npc1 = new Npc(NpcID.PG01, "Vagabondo", "un vagabondo dall'aria calma, non sembra avere brutte intenzioni");

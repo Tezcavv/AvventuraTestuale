@@ -49,11 +49,12 @@
     <Compile Include="Conditions\ItemIsUsedOnCondition.cs" />
     <Compile Include="Conditions\LastDialogue.cs" />
     <Compile Include="DialogueActions\AcquireItem.cs" />
+    <Compile Include="DialogueActions\EndGame.cs" />
     <Compile Include="DialogueActions\IDialogueAction.cs" />
     <Compile Include="Conditions\IExitCondition.cs" />
     <Compile Include="DialogueActions\RemoveItemFromInventory.cs" />
     <Compile Include="DialogueActions\UnlockAmbient.cs" />
-    <Compile Include="IExaminable.cs" />
+    <Compile Include="Model\IExaminable.cs" />
     <Compile Include="Model\Dialogue.cs" />
     <Compile Include="Model\HotArea.cs" />
     <Compile Include="Model\Item.cs" />

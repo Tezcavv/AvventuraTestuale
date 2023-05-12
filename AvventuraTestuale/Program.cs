@@ -17,7 +17,7 @@ namespace AvventuraTestuale {
 
 
 
-        const string GAME_TITLE = "Gatito";
+        const string GAME_TITLE = "Avventura Testuale 2 - Electric Boogaloo";
         public const string COMMAND_NOT_VALID = "Comando non valido";
         const string TARGET_NOT_FOUND = "Bersaglio non trovato";
         const string TARGET_NEEDED = "Serve un Bersaglio";
@@ -36,7 +36,7 @@ namespace AvventuraTestuale {
             { "aiuto",Action.AIUTO},
             { "esci",Action.ESCI}
         };
-        private static bool gameIsRunning = true;
+        public static bool gameIsRunning = true;
 
         #region WorldInit
         static void CreateWorld() {
@@ -82,10 +82,23 @@ namespace AvventuraTestuale {
 
             Console.Title = GAME_TITLE;
             CreateWorld();
+            SlowlyWrite("Ciao, Benvenuto in questo universo, un universo molto piccolo e con molte poche cose da fare"
+                        + "\nProva a finire il gioco, intanto ecco a te una lista di comandi (alcuni ti saranno utili): ");
+            HandleHelp();
+            SlowlyWrite("Se sei pronto, premi invio:");
+            Read();
+            Console.Clear();
+            HandleLookAround();
             while (gameIsRunning) {
                 Write(""); 
                 AskAction();
             }
+
+            SlowlyWrite("Acqua di monte, acqua di mare, acqua di fiume o di lago fluviale" +
+                "\n sorgente che sgorghi fresca e pulita" +
+                "\n  tu che per noi sei fonte di vita." +
+                "\n\n   hai finito il gioco, complimenti");
+            Read();
 
         }
 
@@ -250,6 +263,11 @@ namespace AvventuraTestuale {
         private static void HandleLookAround() {
             SlowlyWrite(Player.CurrentAmbient.Name.ToUpper() + " - " + Player.CurrentAmbient.Description);
             SlowlyWrite("Ti guardi attorno, vedi:");
+
+            if (Player.CurrentAmbient.Examinables.Count <= 0) {
+                SlowlyWrite("Nulla di particolare");
+            }
+
             foreach(IExaminable examinable in Player.CurrentAmbient.Examinables) {
                 SlowlyWrite(examinable.Name);
             }
